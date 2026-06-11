@@ -30,30 +30,9 @@ function loadServiceAccount() {
 const creds = loadServiceAccount();
 
 if (!creds.client_email || !creds.private_key) {
-  // Try loading accounts.json from project root as a convenience during local dev
-  try {
-    const candidate = path.resolve(process.cwd(), "accounts.json");
-    if (fs.existsSync(candidate)) {
-      const raw = fs.readFileSync(candidate, "utf8");
-      const parsed = JSON.parse(raw);
-      if (parsed.client_email && parsed.private_key) {
-        creds.client_email = parsed.client_email;
-        creds.private_key = parsed.private_key;
-      }
-    }
-  } catch (e) {
-    // ignore and throw below
-  }
-
-  if (!creds.client_email || !creds.private_key) {
-    throw new Error(
-      "Google credentials missing: set GOOGLE_SERVICE_ACCOUNT (JSON) or GOOGLE_CLIENT_EMAIL and GOOGLE_PRIVATE_KEY in environment, or add accounts.json to project root",
-    );
-  } else {
-    console.warn(
-      "Using Google credentials from local accounts.json (development only). Consider setting env variables instead.",
-    );
-  }
+  throw new Error(
+    "Google credentials missing: set GOOGLE_SERVICE_ACCOUNT (JSON) or GOOGLE_CLIENT_EMAIL and GOOGLE_PRIVATE_KEY in environment",
+  );
 }
 
 const auth = new google.auth.GoogleAuth({

@@ -26,7 +26,6 @@
 
 ## Repository layout
 
-- `accounts.json` — Local credentials/config (NOT committed). See the example below.
 - `package.json` — npm scripts and dependencies.
 - `tsconfig.json` — TypeScript config.
 - `src/` — Source TypeScript files. Entry: `src/index.ts`.
@@ -41,7 +40,7 @@
 npm install
 ```
 
-2. Provide credentials in `accounts.json` (see example). Do NOT commit secrets.
+2. Provide credentials via environment variables or a local `.env` file. Do NOT commit secrets.
 
 3. Run in development:
 
@@ -56,29 +55,13 @@ npm run build
 npm start
 ```
 
-## `accounts.json` (example)
-
-Create a file `accounts.json` in the project root with the following shape and fill values from your provider dashboards:
-
-```json
-{
-  "assemblyai": {
-    "apiKey": "YOUR_ASSEMBLYAI_API_KEY"
-  },
-  "telegram": {
-    "botToken": "YOUR_TELEGRAM_BOT_TOKEN"
-  },
-  "google": {
-    "client_email": "...",
-    "private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n",
-    "spreadsheetId": "YOUR_SPREADSHEET_ID"
-  }
-}
-```
-
 Notes:
 
-- `accounts.json` is read by the application for credentials. Keep it local and add it to `.gitignore` (it is already present in this workspace).
+- The application reads credentials from environment variables. You can place them in a local `.env` file for development when using `dotenv`.
+
+- Required Google credentials: either set `GOOGLE_SERVICE_ACCOUNT` (JSON string) or both `GOOGLE_CLIENT_EMAIL` and `GOOGLE_PRIVATE_KEY`.
+
+- Other required env vars: `BOT_TOKEN`, `ASSEMBLY_API_KEY`, `GOOGLE_SHEET_ID`.
 
 ## Environment & Tools
 
