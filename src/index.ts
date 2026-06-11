@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import express from "express";
 import { startTelegramBot } from "./services/telegram";
 
 dotenv.config({ path: ".env" });
@@ -20,3 +21,22 @@ if (missing.length > 0) {
 }
 
 startTelegramBot();
+
+const app = express();
+
+app.get("/", (_, res) => {
+  res.send("Wallet Alert Bot is running");
+});
+
+app.get("/health", (_, res) => {
+  res.status(200).json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+  });
+});
+
+const PORT = Number(process.env.PORT) || 3001;
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
